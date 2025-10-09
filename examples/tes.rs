@@ -1,6 +1,0 @@
-use devu::*;
-
-
-fn main() {
-    
-}
