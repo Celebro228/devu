@@ -1,25 +1,29 @@
 /*
 
+DeVu - легкий и быстрый движок по типу ccode и fancade,
+    и он не будет полным НИКОГДА. Этот движок разработан
+    в первую очередь для легкости разработки 3д игр.
+
 TODO:
 [#] Создание окна
-[] Основная логика
-[] Модули
-[] Логика модулей
-[] Создать info
-[] Создать основную сцену
-[] Добавление 3д объектовя
+[?] Основная стуктура
+[] Создать обычный мир
+[] Добавление 3д объектов
 [] Добавить мобули для 3д объектов
 [] Рисование 3д объектов
+[] Создать state
+[] Создать основную сцену
 [] Создать ивенты клавы
 [] Создать ивенты мыши
 [] Создать 3д камеру
+[] Аудио
 [] Добавить физику
 [] Создание DEVU-CLI
+[] Экспорт на андроид
 [] Создать resource
 [] Добавление изображения
 [] Экспорт модели
-[] Аудио
-[] Веб аудио
+[] Веб
 [] Добавление текста
 [] Сохранение данных
 [] Мультиплеер
@@ -27,32 +31,32 @@ TODO:
 */
 
 
-mod threed;
+pub mod prelude;
+pub mod render;
+pub mod module;
+//pub mod utils;
+
+
+use module::ModulesEngine;
+use module::Module;
 
 
 pub struct Engine {
-    module_list: Vec<Box<dyn Module>>,
+    modules: ModulesEngine,
 }
 impl Engine {
     pub fn new() -> Self {
         Self {
-            module_list: Vec::new(),
+            modules: ModulesEngine::default(),
         }
     }
     pub fn add_module(&mut self, module: impl Module) -> &mut Self {
-        self.module_list.push(Box::new(module));
+        self.modules.add(module);
         self
     }
-    pub fn run(self, title: &str) {
-        threed::run(title, || {
-
+    pub fn run(mut self, title: &str) {
+        render::run(title, move || {
+            self.modules.update();
         });
     }
-}
-
-
-pub trait Module: std::any::Any {
-    fn start(&mut self);
-    fn update(&mut self);
-    fn draw(&mut self);
 }
