@@ -9,12 +9,12 @@ fn main() {
         node_camera().rotation().rotation_target(),
     ]);
 
-    start("Okay", node);
+    devu::start("Okay", node);
 }
 
 
 struct Test;
-impl Node for Test {
+impl NodeModule for Test {
     fn start() -> Self {
         
     }

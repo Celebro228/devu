@@ -2,9 +2,7 @@ use devu::prelude::*;
 
 
 fn main() {
-    let mut engine = devu::Engine::new();
-    engine.add_module(Test::default());
-    engine.run("Bench");
+    devu::start("Bench", node(vec![]));
 }
 
 
