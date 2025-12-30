@@ -35,12 +35,12 @@ pub struct Rl(RaylibHandle);
 
 pub fn run<SV, SR, SW, S, UV, UR, UW, U>(
     title: &str,
-    start: impl AsLabel<S> + FnOnce() -> SW + 'static + Clone,
-    update: impl AsLabel<U> + FnOnce() -> UW + 'static + Clone,
+    start: impl AsLabel<S> + FnOnce() -> SW + 'static + Clone + Sync + Send,
+    update: impl AsLabel<U> + FnOnce() -> UW + 'static + Clone + Sync + Send,
 )
 where
-    SW: IntoWorkload<SV, SR>,
-    UW: IntoWorkload<UV, UR>,
+    SW: IntoWorkload<SV, SR> + 'static,
+    UW: IntoWorkload<UV, UR> + 'static,
 {
     let conf = conf::Conf {
         title: title.to_string(),
@@ -52,12 +52,12 @@ where
 
 pub fn run_ex<SV, SR, SW, S, UV, UR, UW, U>(
     conf: conf::Conf,
-    start: impl AsLabel<S> + FnOnce() -> SW + 'static + Clone,
-    update: impl AsLabel<U> + FnOnce() -> UW + 'static + Clone,
+    start: impl AsLabel<S> + FnOnce() -> SW + 'static + Clone + Sync + Send,
+    update: impl AsLabel<U> + FnOnce() -> UW + 'static + Clone + Sync + Send,
 )
 where
-    SW: IntoWorkload<SV, SR>,
-    UW: IntoWorkload<UV, UR>,
+    SW: IntoWorkload<SV, SR> + 'static,
+    UW: IntoWorkload<UV, UR> + 'static,
 {
     let mut builder = init();
     builder.title(&conf.title);
@@ -76,23 +76,32 @@ where
     }
     let (rl, thread) = builder.build();
 
+    // Workloads
+    let start = move || -> Workload {
+        (
+            start_system(),
+            pre_update_system(),
+            start.clone()(),
+        ).into_workload()
+    };
+    let update = move || -> Workload {
+        (
+            pre_update_system(),
+            update.clone()(),
+            post_update_system(),
+        ).into_workload()
+    };
+
+    // World
     let world = World::new();
     world.add_unique(Rl(rl));
-    world.add_workload(start_system);
-    world.add_workload(pre_update_system);
-    world.add_workload(post_update_system);
     world.add_workload(start.clone());
     world.add_workload(update.clone());
-
-    world.run_workload(start_system).unwrap();
-    world.run_workload(pre_update_system).unwrap();
+    
     world.run_workload(start).unwrap();
-    world.run_workload(post_update_system).unwrap();
 
     while !world.get_unique::<&Rl>().unwrap().0.window_should_close() {
-        world.run_workload(pre_update_system).unwrap();
         world.run_workload(update.clone()).unwrap();
-        world.run_workload(post_update_system).unwrap();
 
         world.get_unique::<&mut Rl>().unwrap().0.draw(&thread, |mut d| {
             d.clear_background(Color::RAYWHITE);
