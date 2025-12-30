@@ -3,7 +3,7 @@ name = "devu"
 version = "0.1.0"
 edition = "2024"
 license = "MIT OR Apache-2.0"
-description = "Simple game engine for Rust"
+description = "Simple raylib-based game engine for Rust"
 repository = "https://github.com/Celebro228/devu"
 documentation = "https://docs.rs/devu"
 keywords = ["gamedev", "webassembly", "3d", "graphics"]
@@ -11,21 +11,11 @@ categories = ["game-development", "graphics", "rendering"]
 authors = ["Celebro228"]
 
 
-# Зависимости
 [dependencies]
-three-d = "0.18.2"
+raylib = { git = "https://github.com/raylib-rs/raylib-rs.git", package = "raylib", rev = "c574449e65d698d7bee1e7d623726f83947a2c13" }
+shipyard = "0.10.0"
+glam = "0.30"
 
-[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
-# rayon = "1.11.0"
-# parking_lot = "0.12.5"
-
-
-# Dev mod
-[profile.dev]
-opt-level = 3
-
-[profile.dev.package."*"]
-opt-level = 3
 
 # Release mod
 [profile.release]
