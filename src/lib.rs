@@ -27,10 +27,11 @@ pub mod prelude;
 pub mod conf;
 pub mod ecs; // Re-export shipyard
 pub mod math; // Re-export glam
+pub mod window;
 
 
 #[derive(Unique)]
-pub struct Rl(RaylibHandle);
+struct Rl(RaylibHandle);
 
 
 pub fn run<SV, SR, SW, S, UV, UR, UW, U>(
@@ -109,15 +110,16 @@ where
     }
 }
 
+// TODO: Заполнить сущности
 fn start_system() -> Workload {
     (
-        || {}
+        window::start_window_systems,
     ).into_workload()
 }
 
 fn pre_update_system() -> Workload {
     (
-        || {}
+        window::pre_update_window,
     ).into_workload()
 }
 
