@@ -28,6 +28,7 @@ pub mod conf;
 pub mod ecs; // Re-export shipyard
 pub mod math; // Re-export glam
 pub mod window;
+pub mod color;
 
 
 #[derive(Unique)]
