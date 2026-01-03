@@ -23,8 +23,8 @@ fn start() -> Workload {
     ).into_workload()
 }
 
-fn fullscreen(mut vm_window: UniqueViewMut<Window>) {
-    vm_window.fullscreen = true;
+fn fullscreen(mut vm_fullscreen: UniqueViewMut<Fullscreen>) {
+    vm_fullscreen.0 = true;
 }
 
 

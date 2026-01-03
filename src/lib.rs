@@ -29,6 +29,8 @@ pub mod ecs; // Re-export shipyard
 pub mod math; // Re-export glam
 pub mod window;
 pub mod color;
+pub mod transform;
+pub mod camera;
 pub mod shapes;
 
 
@@ -105,14 +107,11 @@ where
 
     while !world.get_unique::<&Rl>().unwrap().0.window_should_close() {
         world.run_workload(update.clone()).unwrap();
-
-        world.get_unique::<&mut Rl>().unwrap().0.draw(&thread, |mut d| {
-            d.clear_background(Color::RAYWHITE);
-        });
+        draw_systems(&thread, &world);
     }
 }
 
-// TODO: Заполнить сущности
+
 fn start_system() -> Workload {
     (
         window::start_window_systems,
@@ -122,7 +121,7 @@ fn start_system() -> Workload {
 fn pre_update_system() -> Workload {
     (
         window::pre_update_window,
-        window::pre_update_time,
+        window::pre_update_date_and_time,
     ).into_workload()
 }
 
@@ -130,4 +129,10 @@ fn post_update_system() -> Workload {
     (
         || {}
     ).into_workload()
+}
+
+fn draw_systems(thread: &RaylibThread, world: &World) {
+    world.get_unique::<&mut Rl>().unwrap().0.draw(thread, |mut d| {
+        d.clear_background(Color::RAYWHITE);
+    });
 }
