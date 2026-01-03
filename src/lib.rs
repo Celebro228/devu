@@ -120,8 +120,8 @@ fn start_system() -> Workload {
 
 fn pre_update_system() -> Workload {
     (
-        window::pre_update_window,
-        window::pre_update_date_and_time,
+        window::pre_update_fullscreen,
+        window::pre_update_date_and_time_and_screen,
     ).into_workload()
 }
 
@@ -132,7 +132,10 @@ fn post_update_system() -> Workload {
 }
 
 fn draw_systems(thread: &RaylibThread, world: &World) {
-    world.get_unique::<&mut Rl>().unwrap().0.draw(thread, |mut d| {
-        d.clear_background(Color::RAYWHITE);
+    world.get_unique::<&mut Rl>().unwrap().0.draw(thread, |mut d: RaylibDrawHandle<'_>| {
+        let background_color = world.get_unique::<&window::BackgroundColor>().unwrap().0.to_raylib_color();
+        d.clear_background(background_color);
+
+        shapes::draw_shapes(d, world);
     });
 }

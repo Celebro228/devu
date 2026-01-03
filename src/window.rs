@@ -11,6 +11,13 @@ pub(super) fn start_window_systems(
     v_world.add_unique(Fullscreen::new(&mut vm_rl));
     v_world.add_unique(Time(0.));
     v_world.add_unique(DeltaTime(0.));
+    v_world.add_unique(BackgroundColor(
+        crate::color::Color::BLACK,
+    ));
+    v_world.add_unique(Screen{
+        width: 0.,
+        height: 0.,
+    });
 }
 
 
@@ -34,7 +41,7 @@ impl Fullscreen {
     }
 }
 
-pub(super) fn pre_update_window(
+pub(super) fn pre_update_fullscreen(
     mut vm_rl: UniqueViewMut<Rl>,
     mut vm_fullscreen: UniqueViewMut<Fullscreen>,
 ) {
@@ -56,10 +63,17 @@ pub(super) fn pre_update_window(
     }
 }
 
-fn app_size_with_monitor_size (vm_rl: &mut Rl) {
+fn app_size_with_monitor_size(vm_rl: &mut Rl) {
     let width = get_monitor_width(0);
     let height = get_monitor_height(0);
     vm_rl.0.set_window_size(width, height);
+}
+
+
+#[derive(Unique)]
+pub struct Screen {
+    pub width: f32,
+    pub height: f32,
 }
 
 
@@ -73,11 +87,21 @@ pub struct DeltaTime(
     pub f32,
 );
 
-pub(super) fn pre_update_date_and_time(
+pub(super) fn pre_update_date_and_time_and_screen(
     v_rl: UniqueView<Rl>,
     mut vm_time: UniqueViewMut<Time>,
     mut vm_delta_time: UniqueViewMut<DeltaTime>,
+    mut vm_window_size: UniqueViewMut<Screen>,
 ) {
     vm_time.0 = v_rl.0.get_time();
     vm_delta_time.0 = v_rl.0.get_frame_time();
+
+    vm_window_size.width = v_rl.0.get_screen_width() as f32;
+    vm_window_size.height = v_rl.0.get_screen_height() as f32;
 }
+
+
+#[derive(Unique)]
+pub struct BackgroundColor(
+    pub crate::color::Color,
+);

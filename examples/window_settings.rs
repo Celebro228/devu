@@ -20,11 +20,16 @@ fn main() {
 fn start() -> Workload {
     (
         fullscreen,
+        background_color,
     ).into_workload()
 }
 
 fn fullscreen(mut vm_fullscreen: UniqueViewMut<Fullscreen>) {
     vm_fullscreen.0 = true;
+}
+
+fn background_color(mut vm_bg_color: UniqueViewMut<BackgroundColor>) {
+    vm_bg_color.0 = Color::YELLOW;
 }
 
 
