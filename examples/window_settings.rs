@@ -9,7 +9,7 @@ fn main() {
             resizable: true,
             msaa_4x: false,
             vsync: false,
-            logging: true,
+            logging: false,
         },
         start,
         update,

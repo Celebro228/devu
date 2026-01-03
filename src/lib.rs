@@ -122,6 +122,7 @@ fn start_system() -> Workload {
 fn pre_update_system() -> Workload {
     (
         window::pre_update_window,
+        window::pre_update_time,
     ).into_workload()
 }
 

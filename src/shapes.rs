@@ -1,8 +1,12 @@
 use shipyard::*;
 use glam::Vec2;
 
+// TODO: Доделать в будущем
+// use crate::color::Color;
 
-const DEFAULT_TRANSFORM2D: Transform2D = Transform2D::ZERO;
+
+// const DEFAULT_TRANSFORM2D: Transform2D = Transform2D::ZERO;
+// const DEFAULT_SHAPES_COLOR: Color = Color::WHITE;
 
 
 #[derive(Component)]

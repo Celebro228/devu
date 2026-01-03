@@ -9,6 +9,7 @@ pub(super) fn start_window_systems(
     mut vm_rl: UniqueViewMut<Rl>,
 ) {
     v_world.add_unique(Window::new(&mut vm_rl));
+    v_world.add_unique(Time::new(&vm_rl));
 }
 
 
@@ -28,6 +29,7 @@ impl Window {
         if fullscreen {
             app_size_with_monitor_size(vm_rl);
         }
+
         Self {
             window_buffer: WindowBuffer { fullscreen, },
             fullscreen,
@@ -61,4 +63,39 @@ fn app_size_with_monitor_size (vm_rl: &mut Rl) {
     let width = get_monitor_width(0);
     let height = get_monitor_height(0);
     vm_rl.0.set_window_size(width, height);
+}
+
+
+#[derive(Unique)]
+pub struct Time {
+    time: f64,
+    delta: f32,
+}
+
+impl Time {
+    fn new(v_rl: &Rl) -> Self {
+        let time = v_rl.0.get_time();
+        let delta = v_rl.0.get_frame_time();
+
+        Self {
+            time,
+            delta,
+        }
+    }
+
+    pub fn get_time(&self) -> f64 {
+        self.time
+    }
+
+    pub fn get_delta(&self) -> f32 {
+        self.delta
+    }
+}
+
+pub(super) fn pre_update_time(
+    v_rl: UniqueView<Rl>,
+    mut vm_time: UniqueViewMut<Time>,
+) {
+    vm_time.time = v_rl.0.get_time();
+    vm_time.delta = v_rl.0.get_frame_time();
 }
