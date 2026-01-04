@@ -98,7 +98,6 @@ pub(super) fn draw_shapes(mut d: RaylibDrawHandle, world: &World) {
 struct VisibleBuffer<'a> {
     visibles: View<'a, Visible>,
 }
-
 impl<'a> VisibleBuffer<'a> {
     fn is_visible(&self, entity_id: EntityId) -> bool {
         if let Ok(visible) = self.visibles.get(entity_id) {
@@ -115,7 +114,6 @@ struct TSB<'a> {
     scales: View<'a, Scale2D>,
     colors: View<'a, Color>,
 }
-
 impl<'a> TSB<'a> {
     fn get_or_default(&self, entity_id: EntityId) -> (Vec2, f32, f32, color::Color) {
         let position = if let Ok(position) = self.positions.get(entity_id) {

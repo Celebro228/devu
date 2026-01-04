@@ -1,3 +1,5 @@
+use std::ops::{Deref, DerefMut};
+
 use raylib::prelude::*;
 use shipyard::*;
 
@@ -26,7 +28,6 @@ pub struct Fullscreen(
     pub bool,
     bool,
 );
-
 impl Fullscreen {
     fn new(vm_rl: &mut Rl) -> Self {
         let fullscreen = vm_rl.0.is_window_fullscreen();
@@ -38,6 +39,17 @@ impl Fullscreen {
             fullscreen,
             fullscreen,
         )
+    }
+}
+impl Deref for Fullscreen {
+    type Target = bool;
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+impl DerefMut for Fullscreen {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.0
     }
 }
 
@@ -81,11 +93,33 @@ pub struct Screen {
 pub struct Time(
     pub f64,
 );
+impl Deref for Time {
+    type Target = f64;
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+impl DerefMut for Time {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.0
+    }
+}
 
 #[derive(Unique)]
 pub struct DeltaTime(
     pub f32,
 );
+impl Deref for DeltaTime {
+    type Target = f32;
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+impl DerefMut for DeltaTime {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.0
+    }
+}
 
 pub(super) fn pre_update_date_and_time_and_screen(
     v_rl: UniqueView<Rl>,
@@ -105,3 +139,14 @@ pub(super) fn pre_update_date_and_time_and_screen(
 pub struct BackgroundColor(
     pub crate::color::Color,
 );
+impl Deref for BackgroundColor {
+    type Target = crate::color::Color;
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+impl DerefMut for BackgroundColor {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.0
+    }
+}

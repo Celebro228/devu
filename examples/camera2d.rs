@@ -64,6 +64,6 @@ fn update_camera(
     v_delta: UniqueView<DeltaTime>,
 ) {
     for (_camera, rotation) in (&v_cameras, &mut vm_rotations).iter() {
-        rotation.0 += v_delta.0 * 100.;
+        **rotation += **v_delta * 100.;
     }
 }

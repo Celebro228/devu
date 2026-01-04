@@ -74,13 +74,13 @@ fn update_shapes(
 
     for (_, delta_shape, position) in (&v_circles, &v_delta_shapes, &mut vm_positions).iter() {
         if delta_shape.0 {
-            position.0.x += speed * v_delta.0;
+            position.x += speed * **v_delta;
         } else {
-            position.0.x += speed / 60.;
+            position.x += speed / 60.;
         }
 
-        if position.0.x > v_screen.width {
-            position.0.x = 0.;
+        if position.x > v_screen.width {
+            position.x = 0.;
         }
     }
 }
