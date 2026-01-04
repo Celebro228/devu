@@ -6,3 +6,4 @@ pub use crate::color::*;
 pub use crate::transform::*;
 pub use crate::camera::*;
 pub use crate::shapes::*;
+pub use crate::models::*;

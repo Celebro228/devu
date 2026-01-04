@@ -31,6 +31,19 @@ impl DerefMut for Visible {
     }
 }
 
+pub(super) struct VisibleBuffer<'a> {
+    pub(super) visibles: View<'a, Visible>,
+}
+impl<'a> VisibleBuffer<'a> {
+    pub(super) fn is_visible(&self, entity_id: EntityId) -> bool {
+        if let Ok(visible) = self.visibles.get(entity_id) {
+            return visible.0;
+        } else {
+            return true;
+        }
+    }
+}
+
 // ===================================== 2D =======================================
 #[derive(Component, Clone, Copy, Debug)]
 pub struct Position2D(
@@ -164,7 +177,7 @@ impl Scale3D {
 }
 impl Default for Scale3D {
     fn default() -> Self {
-        Self(Vec3::ZERO)
+        Self(Vec3::ONE)
     }
 }
 impl Deref for Scale3D {

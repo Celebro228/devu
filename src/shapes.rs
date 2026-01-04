@@ -9,12 +9,12 @@ use crate::transform::*;
 use crate::color::*;
 
 
-#[derive(Component)]
+#[derive(Component, Clone, Copy, Debug)]
 pub struct Circle(
     pub f32,
 );
 
-#[derive(Component)]
+#[derive(Component, Clone, Copy, Debug)]
 pub struct Rect(
     pub f32,
     pub f32,
@@ -22,7 +22,7 @@ pub struct Rect(
 
 
 
-pub(super) fn draw_shapes(mut d: RaylibDrawHandle, world: &World) {
+pub(super) fn draw_shapes(d: &mut RaylibDrawHandle, world: &World) {
     let visibles = world.borrow::<View<Visible>>().unwrap();
     let visibles = VisibleBuffer { visibles };
 
@@ -95,19 +95,6 @@ pub(super) fn draw_shapes(mut d: RaylibDrawHandle, world: &World) {
 }
 
 
-struct VisibleBuffer<'a> {
-    visibles: View<'a, Visible>,
-}
-impl<'a> VisibleBuffer<'a> {
-    fn is_visible(&self, entity_id: EntityId) -> bool {
-        if let Ok(visible) = self.visibles.get(entity_id) {
-            return visible.0;
-        } else {
-            return true;
-        }
-    }
-}
-
 struct TSB<'a> {
     positions: View<'a, Position2D>,
     rotations: View<'a, Rotation2D>,
@@ -121,25 +108,21 @@ impl<'a> TSB<'a> {
         } else {
             Vec2::ZERO
         };
-
         let rotation = if let Ok(rotation) = self.rotations.get(entity_id) {
             rotation.0
         } else {
             0.
         };
-
         let scale = if let Ok(scale) = self.scales.get(entity_id) {
             scale.0
         } else {
             1.
         };
-
         let color = if let Ok(color) = self.colors.get(entity_id) {
             color.to_raylib_color()
         } else {
             color::Color::WHITE
         };
-
         (position, rotation, scale, color)
     }
 }

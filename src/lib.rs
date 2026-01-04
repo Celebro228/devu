@@ -32,6 +32,7 @@ pub mod color;
 pub mod transform;
 pub mod camera;
 pub mod shapes;
+pub mod models;
 
 
 #[derive(Unique)]
@@ -136,6 +137,7 @@ fn draw_systems(thread: &RaylibThread, world: &World) {
         let background_color = world.get_unique::<&window::BackgroundColor>().unwrap().0.to_raylib_color();
         d.clear_background(background_color);
 
-        shapes::draw_shapes(d, world);
+        shapes::draw_shapes(&mut d, world);
+        models::draw_models(&mut d, world);
     });
 }
