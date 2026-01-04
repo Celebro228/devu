@@ -1,7 +1,7 @@
 use std::ops::{Deref, DerefMut};
 
 use shipyard::*;
-use glam::Vec2;
+use glam::{Vec2, Vec3, vec2, vec3};
 
 
 // TODO: Использовать либо удалить
@@ -31,10 +31,16 @@ impl DerefMut for Visible {
     }
 }
 
+// ===================================== 2D =======================================
 #[derive(Component, Clone, Copy, Debug)]
 pub struct Position2D(
     pub Vec2,
 );
+impl Position2D {
+    pub fn new(x: f32, y: f32) -> Self {
+        Self(vec2(x, y))
+    }
+}
 impl Default for Position2D {
     fn default() -> Self {
         Self(Vec2::ZERO)
@@ -89,6 +95,85 @@ impl Deref for Scale2D {
     }
 }
 impl DerefMut for Scale2D {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.0
+    }
+}
+
+// ===================================== 3D =======================================
+#[derive(Component, Clone, Copy, Debug)]
+pub struct Position3D(
+    pub Vec3,
+);
+impl Position3D {
+    pub fn new(x: f32, y: f32, z: f32) -> Self {
+        Self(vec3(x, y, z))
+    }
+}
+impl Default for Position3D {
+    fn default() -> Self {
+        Self(Vec3::ZERO)
+    }
+}
+impl Deref for Position3D {
+    type Target = Vec3;
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+impl DerefMut for Position3D {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.0
+    }
+}
+
+#[derive(Component, Clone, Copy, Debug)]
+pub struct Rotation3D(
+    pub Vec3,
+);
+impl Rotation3D {
+    pub fn new(x: f32, y: f32, z: f32) -> Self {
+        Self(vec3(x, y, z))
+    }
+}
+impl Default for Rotation3D {
+    fn default() -> Self {
+        Self(Vec3::ZERO)
+    }
+}
+impl Deref for Rotation3D {
+    type Target = Vec3;
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+impl DerefMut for Rotation3D {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.0
+    }
+}
+
+#[derive(Component, Clone, Copy, Debug)]
+pub struct Scale3D(
+    pub Vec3,
+);
+impl Scale3D {
+    pub fn new(x: f32, y: f32, z: f32) -> Self {
+        Self(vec3(x, y, z))
+    }
+}
+impl Default for Scale3D {
+    fn default() -> Self {
+        Self(Vec3::ZERO)
+    }
+}
+impl Deref for Scale3D {
+    type Target = Vec3;
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+impl DerefMut for Scale3D {
     fn deref_mut(&mut self) -> &mut Self::Target {
         &mut self.0
     }
