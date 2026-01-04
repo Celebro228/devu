@@ -44,6 +44,7 @@ fn spawn_shapes(
         Rotation2D(45.),
         Scale2D(2.),
         Color::BLUE,
+        Visible(true),
     ));
 }
 

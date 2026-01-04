@@ -36,6 +36,7 @@ fn spawn_camera(
         Scale2D(2.),
     ));
 
+    // Shapes
     vm_world.add_entity((
         Rect(10000., 300.),
         Color::RED,
@@ -58,11 +59,11 @@ fn update() -> Workload {
 }
 
 fn update_camera(
-    v_camera: View<Camera2D>,
-    mut vm_rotation: ViewMut<Rotation2D>,
+    v_cameras: View<Camera2D>,
+    mut vm_rotations: ViewMut<Rotation2D>,
     v_delta: UniqueView<DeltaTime>,
 ) {
-    for (_camera, rotation) in (&v_camera, &mut vm_rotation).iter() {
+    for (_camera, rotation) in (&v_cameras, &mut vm_rotations).iter() {
         rotation.0 += v_delta.0 * 100.;
     }
 }
