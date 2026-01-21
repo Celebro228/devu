@@ -4,8 +4,6 @@ use devu::prelude::*;
 fn main() {
     devu::run(
         "Window",
-        start,
-        update,
     )
 }
 
