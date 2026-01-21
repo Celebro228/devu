@@ -10,11 +10,7 @@ fn main() {
 }
 
 
-fn start() -> Workload {
-    ( || { } ).into_workload()
-}
-
-
-fn update() -> Workload {
-    ( || { } ).into_workload()
+#[system(START)]
+fn hello_world() {
+    println!("Hello world!");
 }

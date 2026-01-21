@@ -14,7 +14,7 @@ authors = ["Celebro228"]
 [dependencies]
 raylib = { git = "https://github.com/raylib-rs/raylib-rs.git", package = "raylib", rev = "c574449e65d698d7bee1e7d623726f83947a2c13" }
 shipyard = "0.11.0"
-glam = "0.30"
+glam = "0.30.10"
 
 
 # Release mod
