@@ -3,6 +3,7 @@ use raylib::prelude::*;
 
 pub mod prelude;
 pub mod conf;
+pub mod ecs;
 
 
 pub fn run(title: &str) {
@@ -15,22 +16,13 @@ pub fn run(title: &str) {
 
 
 pub fn run_ex(conf: conf::Conf) {
-    let mut builder = init();
-    builder.title(&conf.title);
-    builder.size(conf.size.0, conf.size.1);
-    if conf.resizable {
-        builder.resizable();
+    let (mut rl, thread) = conf.build();
+
+
+    for system in ecs::START {
+        system();
     }
-    if conf.msaa_4x {
-        builder.msaa_4x();
-    }
-    if conf.vsync {
-        builder.vsync();
-    }
-    if !conf.logging {
-        builder.log_level(TraceLogLevel::LOG_NONE);
-    }
-    let (mut rl, thread) = builder.build();
+
 
     while !rl.window_should_close() {
         rl.draw(&thread, |mut d| {

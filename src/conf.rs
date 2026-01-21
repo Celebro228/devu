@@ -1,3 +1,6 @@
+use raylib::prelude::*;
+
+
 pub struct Conf {
     /// Default: "DeVu Project"
     pub title: String,
@@ -28,5 +31,26 @@ impl Default for Conf {
             #[cfg(not(debug_assertions))]
             logging: false,
         }
+    }
+}
+
+impl Conf {
+    pub(crate) fn build(self) -> (RaylibHandle, RaylibThread) {
+        let mut builder = init();
+        builder.title(&self.title);
+        builder.size(self.size.0, self.size.1);
+        if self.resizable {
+            builder.resizable();
+        }
+        if self.msaa_4x {
+            builder.msaa_4x();
+        }
+        if self.vsync {
+            builder.vsync();
+        }
+        if !self.logging {
+            builder.log_level(TraceLogLevel::LOG_NONE);
+        }
+        builder.build()
     }
 }

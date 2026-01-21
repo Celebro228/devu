@@ -2,9 +2,7 @@ use devu::prelude::*;
 
 
 fn main() {
-    devu::run(
-        "Window",
-    )
+    devu::run("Window");
 }
 
 
