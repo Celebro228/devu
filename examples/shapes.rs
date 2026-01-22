@@ -12,6 +12,7 @@ fn spawn_shapes(
 ) {
     commands.spawn((
         circle(100),
-        position(0, 0, 0),
+        position(100, 0, 0),
+        GREEN,
     ));
 }

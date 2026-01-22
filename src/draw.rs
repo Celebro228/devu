@@ -5,6 +5,7 @@ use glam::vec2;
 use crate::{
     rl,
     transform,
+    color,
     shapes::Shape,
 };
 
@@ -23,6 +24,7 @@ fn draw(
     mut rl: ResMut<rl::Rl>,
     thread: NonSend<rl::Thread>,
 
+    colors: Query<&color::Color>,
     positions: Query<&transform::Position>,
     shapes: Query<(Entity, &Shape)>,
 ) {
@@ -30,18 +32,22 @@ fn draw(
     d.clear_background(Color::RAYWHITE);
 
     let default_position = transform::position(0, 0, 0);
+    let default_color = color::DARKBROWN;
 
+    // 2d sort by pos.z
     let mut shapes_sorted: Vec<(Entity, &Shape)> = shapes.iter().collect();
     shapes_sorted.sort_by_key(|(entity, _)| {
         positions.get(*entity).unwrap_or(&default_position).0.z as isize
     });
     
+    // 2d shape draw
     for (entity, shape) in shapes_sorted {
         let position = positions.get(entity).unwrap_or(&default_position);
+        let color = colors.get(entity).unwrap_or(&default_color);
 
         match shape {
             Shape::Circle(r) => {
-                d.draw_circle_v(vec2(position.x, position.y), *r, Color::BLACK);
+                d.draw_circle_v(vec2(position.x, position.y), *r, color.0);
             }
         }
     }
