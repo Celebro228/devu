@@ -10,6 +10,7 @@ pub mod ecs;
 pub mod math;
 pub mod window;
 pub mod transform;
+pub mod shapes;
 
 
 pub fn run(title: &str) {

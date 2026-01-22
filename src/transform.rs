@@ -30,7 +30,7 @@ impl DerefMut for Position {
     }
 }
 
-#[inline]
+#[inline(always)]
 pub fn position<X, Y, Z>(x: X, y: Y, z: Z) -> Position
 where
     X: AsPrimitive<f32>,

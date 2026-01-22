@@ -11,7 +11,7 @@ fn spawn_shapes(
     mut commands: Commands,
 ) {
     commands.spawn((
-        Circle(100.),
+        circle(100),
         position(0, 0, 0),
     ));
 }
