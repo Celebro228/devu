@@ -4,6 +4,15 @@ pub use linkme::distributed_slice;
 
 
 #[distributed_slice]
+pub static PRE_START: [fn() -> Box<dyn System<In = (), Out = ()>>];
+#[distributed_slice]
 pub static START: [fn() -> Box<dyn System<In = (), Out = ()>>];
 #[distributed_slice]
+pub static POST_START: [fn() -> Box<dyn System<In = (), Out = ()>>];
+
+#[distributed_slice]
+pub static PRE_UPDATE: [fn() -> Box<dyn System<In = (), Out = ()>>];
+#[distributed_slice]
 pub static UPDATE: [fn() -> Box<dyn System<In = (), Out = ()>>];
+#[distributed_slice]
+pub static POST_UPDATE: [fn() -> Box<dyn System<In = (), Out = ()>>];

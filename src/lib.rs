@@ -21,14 +21,26 @@ pub fn run_ex(conf: conf::Conf) {
     app.set_runner(|app| runner(app, conf));
 
 
+    for system_pre_start in ecs::PRE_START {
+        app.add_systems(PreStartup, system_pre_start());
+    }
     for system_start in ecs::START {
         app.add_systems(Startup, system_start());
     }
+    for post_system_start in ecs::POST_START {
+        app.add_systems(PostStartup, post_system_start());
+    }
 
+    for system_pre_update in ecs::PRE_UPDATE {
+        app.add_systems(PreUpdate, system_pre_update());
+    }
     for system_update in ecs::UPDATE {
         app.add_systems(Update, system_update());
     }
-    
+    for post_system_update in ecs::POST_UPDATE {
+        app.add_systems(PostUpdate, post_system_update());
+    }
+
 
     app.run();
 }
