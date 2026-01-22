@@ -1,5 +1,7 @@
-pub(super) use raylib::prelude::Color as RColor;
+pub use raylib::prelude::Color as RColor;
+
 use bevy_ecs::component::Component;
+use std::ops::{Deref, DerefMut};
 
 
 #[repr(C)]
@@ -12,6 +14,18 @@ impl Color {
         Color(RColor::new(r, g, b, a))
     }
 }
+impl Deref for Color {
+    type Target = RColor;
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+impl DerefMut for Color {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.0
+    }
+}
+
 
 #[inline]
 pub const fn color(r: u8, g: u8, b: u8, a: u8) -> Color {

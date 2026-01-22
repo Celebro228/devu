@@ -12,7 +12,13 @@ fn spawn_shapes(
 ) {
     commands.spawn((
         circle(100),
-        position(100, 0, 0),
+        position(100, 100, 0),
         GREEN,
+    ));
+    commands.spawn((
+        rect(100, 100),
+        position(100, 100, 1),
+        rotation2d(45),
+        BLUE,
     ));
 }
