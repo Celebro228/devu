@@ -2,6 +2,7 @@ use bevy_app::prelude::*;
 
 
 mod rl;
+mod draw;
 
 pub mod prelude;
 pub mod conf;
@@ -23,13 +24,10 @@ pub fn run_ex(conf: conf::Conf) {
     let mut app = App::new();
     app.set_runner(|app| runner(app, conf));
 
-    app.add_message::<window::Fullscreen>();
-    app.add_systems(Last, (
-        window::fullscreen,
-    ));
-    // Draw перенести в свой schedule
-
+    draw::init_draw(&mut app);
+    window::init_window(&mut app);
     ecs::set_functions(&mut app);
+
     app.run();
 }
 
@@ -42,6 +40,7 @@ fn runner(mut app: App, conf: conf::Conf) -> AppExit {
 
     while !app.world().resource::<rl::Rl>().window_should_close() {
         app.update();
+        app.world_mut().run_schedule(draw::Draw);
     }
 
 

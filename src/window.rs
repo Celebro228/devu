@@ -1,13 +1,22 @@
 use raylib::prelude::*;
 use bevy_ecs::prelude::*;
+use bevy_app::prelude::*;
 use crate::rl;
+
+
+pub(crate) fn init_window(app: &mut App) {
+    app.add_message::<Fullscreen>();
+    app.add_systems(Last, (
+        fullscreen,
+    ));
+}
 
 
 #[derive(Message)]
 pub struct Fullscreen(pub bool);
 
 
-pub(crate) fn fullscreen(
+pub fn fullscreen(
     mut rl: ResMut<rl::Rl>,
     mut message: MessageReader<Fullscreen>,
 ) {
