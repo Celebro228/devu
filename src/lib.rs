@@ -1,10 +1,13 @@
 use bevy_app::prelude::*;
-use raylib::prelude::*;
 
+
+mod rl;
 
 pub mod prelude;
 pub mod conf;
 pub mod ecs;
+pub mod math;
+pub mod window;
 
 
 pub fn run(title: &str) {
@@ -20,44 +23,29 @@ pub fn run_ex(conf: conf::Conf) {
     let mut app = App::new();
     app.set_runner(|app| runner(app, conf));
 
+    app.add_message::<window::Fullscreen>();
+    app.add_systems(Last, (
+        window::fullscreen,
+    ));
+    // Draw перенести в свой schedule
 
-    for system_pre_start in ecs::PRE_START {
-        app.add_systems(PreStartup, system_pre_start());
-    }
-    for system_start in ecs::START {
-        app.add_systems(Startup, system_start());
-    }
-    for post_system_start in ecs::POST_START {
-        app.add_systems(PostStartup, post_system_start());
-    }
-
-    for system_pre_update in ecs::PRE_UPDATE {
-        app.add_systems(PreUpdate, system_pre_update());
-    }
-    for system_update in ecs::UPDATE {
-        app.add_systems(Update, system_update());
-    }
-    for post_system_update in ecs::POST_UPDATE {
-        app.add_systems(PostUpdate, post_system_update());
-    }
-
-
+    ecs::set_functions(&mut app);
     app.run();
 }
 
 
 fn runner(mut app: App, conf: conf::Conf) -> AppExit {
-    let (mut rl, thread) = conf.build();
+    let (raly, thread) = conf.build();
+    app.insert_resource(rl::Rl(raly));
+    app.insert_non_send_resource(rl::Thread(thread));
 
 
-    while !rl.window_should_close() {
+    while !app.world().resource::<rl::Rl>().window_should_close() {
         app.update();
-
-        rl.draw(&thread, |mut d| {
-            d.clear_background(Color::RAYWHITE);
-        });
     }
 
 
     AppExit::Success
 }
+
+

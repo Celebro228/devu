@@ -13,6 +13,7 @@ authors = ["Celebro228"]
 
 [dependencies]
 raylib = { git = "https://github.com/raylib-rs/raylib-rs.git", package = "raylib", rev = "c574449e65d698d7bee1e7d623726f83947a2c13" }
+glam = "0.30.10"
 linkme = "0.3.35"
 bevy_app = "0.18.0"
 bevy_ecs = "0.18.0"

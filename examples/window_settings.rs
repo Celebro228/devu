@@ -11,3 +11,11 @@ fn main() {
         logging: false,
     })
 }
+
+
+#[startup]
+fn setup(
+    mut fullscreen: MessageWriter<Fullscreen>,
+) {
+    fullscreen.write(Fullscreen(true));
+}
