@@ -9,6 +9,7 @@ pub mod conf;
 pub mod ecs;
 pub mod math;
 pub mod window;
+pub mod transform;
 
 
 pub fn run(title: &str) {
