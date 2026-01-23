@@ -21,7 +21,7 @@ pub struct Conf {
 impl Default for Conf {
     fn default() -> Self {
         Self {
-            title: "DeVu Project".to_string(),
+            title: "DeVu".to_string(),
             size: (800, 400),
             resizable: true,
             msaa_4x: true,

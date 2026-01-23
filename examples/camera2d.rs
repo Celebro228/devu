@@ -12,33 +12,27 @@ fn spawn(
 ) {
     commands.spawn((
         Camera2D,
-        position(0., 0., 0.),
-        rotation2d(),
+        position(0, 0, 0),
+        rotation2d(0),
     ));
-
-    // Shapes
-    commands.add_entity((
-        Rect(10000., 300.),
-        Color::RED,
+    commands.spawn((
+        rect(10000, 300),
+        RED,
     ));
-    commands.add_entity((
-        Rect(300., 10000.),
-        Color::BLUE,
+    commands.spawn((
+        rect(300, 10000),
+        BLUE,
     ));
-    commands.add_entity((
-        Rect(300., 300.),
-        Color::WHITE,
+    commands.spawn((
+        rect(300, 300),
+        WHITE,
     ));
 }
 
 
 #[update]
 fn update_camera(
-    v_cameras: View<Camera2D>,
-    mut vm_rotations: ViewMut<Rotation2D>,
-    v_delta: UniqueView<DeltaTime>,
+    mut camera: Single<&mut Rotation2D, With<Camera2D>>,
 ) {
-    for (_camera, rotation) in (&v_cameras, &mut vm_rotations).iter() {
-        **rotation += **v_delta * 100.;
-    }
+    camera.0 += 1.;
 }

@@ -11,6 +11,7 @@ pub mod math;
 pub mod window;
 pub mod color;
 pub mod transform;
+pub mod camera;
 pub mod shapes;
 
 
