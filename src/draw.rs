@@ -70,12 +70,13 @@ fn draw(
         // 2d shape draw
         for (entity, shape) in shapes_sorted {
             let color = colors.get(entity).unwrap_or(&default_color).0;
-            let position = positions.get(entity).unwrap_or(&default_position);
+            let position = positions.get(entity).unwrap_or(&default_position).0;
+            let position = vec2(position.x, position.y);
             let rotation = rotations2d.get(entity).unwrap_or(&default_rotation2d).0;
 
             match shape {
                 Shape::Circle(r) => d2.draw_circle_v(
-                    vec2(position.x, position.y),
+                    position,
                     *r,
                     color,
                 ),
@@ -84,6 +85,12 @@ fn draw(
                     vec2(w / 2., h / 2.),
                     rotation,
                     color,
+                ),
+                Shape::Line(start_pos, end_pos, thick) => d2.draw_line_ex(
+                    start_pos + position,
+                    end_pos + position,
+                    *thick,
+                    color
                 ),
             }
         }
