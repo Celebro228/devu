@@ -6,21 +6,52 @@ use crate::rl;
 
 pub(crate) fn init_window(app: &mut App) {
     app.add_message::<Fullscreen>();
+    app.insert_resource(Window {
+        size: (800, 400),
+        fullscreen: false,
+    });
+    app.add_systems(First, (
+        window_update,
+    ));
     app.add_systems(Last, (
         fullscreen,
     ));
 }
 
 
-pub struct Window {
-    size: (i32, i32)
-}
-
 #[derive(Message)]
 pub struct Fullscreen(pub bool);
 
+#[derive(Resource)]
+pub struct Window {
+    size: (i32, i32),
+    fullscreen: bool,
+}
+impl Window {
+    pub fn fullscreen(&self) -> bool {
+        self.fullscreen
+    }
+    pub fn size(&self) -> (i32, i32) {
+        self.size
+    }
+    pub fn width(&self) -> i32 {
+        self.size.0
+    }
+    pub fn height(&self) -> i32 {
+        self.size.1
+    }
+}
 
-pub fn fullscreen(
+
+fn window_update(
+    rl: Res<rl::Rl>,
+    mut window: ResMut<Window>,
+) {
+    window.size = (rl.get_screen_width(), rl.get_screen_height());
+    window.fullscreen = rl.is_window_fullscreen();
+}
+
+fn fullscreen(
     mut rl: ResMut<rl::Rl>,
     mut message: MessageReader<Fullscreen>,
 ) {
