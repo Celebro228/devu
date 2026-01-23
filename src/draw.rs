@@ -6,6 +6,7 @@ use crate::{
     rl,
     transform,
     color,
+    window,
     camera,
     shapes::Shape,
 };
@@ -25,6 +26,8 @@ fn draw(
     mut rl: ResMut<rl::Rl>,
     thread: NonSend<rl::Thread>,
 
+    window: Res<window::Window>,
+
     colors: Query<&color::Color>,
     positions: Query<&transform::Position>,
     rotations2d: Query<&transform::Rotation2D>,
@@ -34,13 +37,17 @@ fn draw(
     let mut d = rl.begin_drawing(&thread);
     d.clear_background(Color::RAYWHITE);
 
+
+    let (width, height) = window.size();
+
+
     let default_color = color::DARKBROWN;
     let default_position = transform::position(0, 0, 0);
     let default_rotation2d = transform::rotation2d(0);
 
 
     let mut camera2d = Camera2D {
-        offset: Vec2::ZERO,
+        offset: vec2(width as f32 / 2.,  height as f32 / 2.),
         target: Vec2::ZERO,
         rotation: 0.,
         zoom: 1.,
@@ -49,7 +56,7 @@ fn draw(
         let position = positions.get(entity).unwrap_or(&default_position).0;
         let rotation = rotations2d.get(entity).unwrap_or(&default_rotation2d).0;
 
-        camera2d.offset = vec2(position.x, position.y);
+        camera2d.target = vec2(position.x, position.y);
         camera2d.rotation = rotation;
     }
 

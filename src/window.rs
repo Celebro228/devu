@@ -10,8 +10,13 @@ pub(crate) fn init_window(app: &mut App) {
         size: (800, 400),
         fullscreen: false,
     });
+    app.insert_resource(Time {
+        time: 0.1,
+        delta: 0.1,
+    });
     app.add_systems(First, (
         window_update,
+        time_update,
     ));
     app.add_systems(Last, (
         fullscreen,
@@ -21,6 +26,20 @@ pub(crate) fn init_window(app: &mut App) {
 
 #[derive(Message)]
 pub struct Fullscreen(pub bool);
+
+#[derive(Resource)]
+pub struct Time {
+    time: f64,
+    delta: f32,
+}
+impl Time {
+    pub fn time(&self) -> f64 {
+        self.time
+    }
+    pub fn delta(&self) -> f32 {
+        self.delta
+    }
+}
 
 #[derive(Resource)]
 pub struct Window {
@@ -49,6 +68,14 @@ fn window_update(
 ) {
     window.size = (rl.get_screen_width(), rl.get_screen_height());
     window.fullscreen = rl.is_window_fullscreen();
+}
+
+fn time_update(
+    rl: Res<rl::Rl>,
+    mut time: ResMut<Time>,
+) {
+    time.time = rl.get_time();
+    time.delta = rl.get_frame_time();
 }
 
 fn fullscreen(

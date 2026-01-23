@@ -19,3 +19,10 @@ fn setup(
 ) {
     fullscreen.write(Fullscreen(true));
 }
+
+#[update]
+fn print_update(
+    window: Res<Window>,
+) {
+    println!("{} {:?}", window.fullscreen(), window.size());
+}
