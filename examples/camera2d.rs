@@ -32,8 +32,8 @@ fn spawn(
 
 #[update]
 fn update_camera(
-    mut camera: Single<&mut Rotation2D, With<Camera2D>>,
+    mut camera_rotation: Single<&mut Rotation2D, With<Camera2D>>,
     time: Res<Time>,
 ) {
-    camera.0 += time.delta() * 90.;
+    camera_rotation.0 += time.delta() * 90.;
 }

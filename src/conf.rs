@@ -5,7 +5,7 @@ pub struct Conf {
     /// Default: "DeVu Project"
     pub title: String,
     /// Screen size
-    /// Default: (800, 400)
+    /// Default: (1280, 720)
     pub size: (i32, i32),
     /// Default: true
     pub resizable: bool,
@@ -22,7 +22,7 @@ impl Default for Conf {
     fn default() -> Self {
         Self {
             title: "DeVu".to_string(),
-            size: (800, 400),
+            size: (1280, 720),
             resizable: true,
             msaa_4x: true,
             vsync: true,

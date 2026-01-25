@@ -8,7 +8,7 @@ use crate::{
     color,
     window,
     camera,
-    shapes::Shape,
+    shapes::{Shape, TextureStore},
 };
 
 
@@ -27,6 +27,7 @@ fn draw(
     thread: NonSend<rl::Thread>,
 
     window: Res<window::Window>,
+    texture_store: Res<TextureStore>,
 
     colors: Query<&color::Color>,
     positions: Query<&transform::Position>,
@@ -63,8 +64,10 @@ fn draw(
     d.draw_mode2D(camera2d, |mut d2| {
         // 2d sort by pos.z
         let mut shapes_sorted: Vec<(Entity, &Shape)> = shapes.iter().collect();
-        shapes_sorted.sort_by_key(|(entity, _)| {
-            positions.get(*entity).unwrap_or(&default_position).0.z as isize
+        shapes_sorted.sort_by(|(a, _), (b, _)| {
+            let za = positions.get(*a).unwrap_or(&default_position).0.z;
+            let zb = positions.get(*b).unwrap_or(&default_position).0.z;
+            za.total_cmp(&zb)
         });
         
         // 2d shape draw
@@ -92,6 +95,16 @@ fn draw(
                     *thick,
                     color
                 ),
+                Shape::Texture(path) => {
+                    let texture = texture_store.hashmap.get(path).unwrap();
+                    d2.draw_texture_ex(
+                        texture,
+                        position - vec2(texture.width as f32 / 2., texture.height as f32 / 2.),
+                        rotation,
+                        1.,
+                        color
+                    )
+                }
             }
         }
     });

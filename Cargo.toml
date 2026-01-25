@@ -19,6 +19,7 @@ bevy_app = "0.18.0"
 bevy_ecs = "0.18.0"
 devu_macro = { path = "./devu_macro" }
 num-traits = "0.2.19"
+hashbrown = "0.16.1"
 
 
 # Release mod

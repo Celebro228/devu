@@ -30,6 +30,7 @@ pub fn run_ex(conf: conf::Conf) {
 
     draw::init_draw(&mut app);
     window::init_window(&mut app);
+    shapes::init_shape(&mut app);
     ecs::set_functions(&mut app);
 
     app.run();
