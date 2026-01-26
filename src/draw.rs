@@ -42,6 +42,7 @@ fn draw(
     let (width, height) = window.size();
 
 
+    let default_font = d.get_font_default();
     let default_color = color::DARKBROWN;
     let default_position = transform::position(0, 0, 0);
     let default_rotation2d = transform::rotation2d(0);
@@ -105,6 +106,15 @@ fn draw(
                         color
                     )
                 }
+                Shape::Text(text, font_size) => d2.draw_text_pro(
+                    &default_font,
+                    text,
+                    position,
+                    Vec2::ZERO,
+                    rotation,
+                    *font_size,
+                    3.,
+                    color),
             }
         }
     });

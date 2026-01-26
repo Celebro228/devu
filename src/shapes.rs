@@ -21,6 +21,7 @@ pub enum Shape {
     Rect(f32, f32),
     Line(Vec2, Vec2, f32),
     Texture(String),
+    Text(String, f32),
 }
 
 #[derive(Resource)]
@@ -74,4 +75,9 @@ pub fn line<T: AsPrimitive<f32>>(start_pos: Vec2, end_pos: Vec2, thick: T) -> Sh
 #[inline(always)]
 pub fn texture(path: &str) -> Shape {
     Shape::Texture(path.to_string())
+}
+
+#[inline(always)]
+pub fn text<S: AsPrimitive<f32>>(text: &str, font_size: S) -> Shape {
+    Shape::Text(text.to_string(), font_size.as_())
 }
