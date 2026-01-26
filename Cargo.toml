@@ -13,10 +13,10 @@ authors = ["Celebro228"]
 
 [dependencies]
 raylib = { git = "https://github.com/raylib-rs/raylib-rs.git", package = "raylib", rev = "c574449e65d698d7bee1e7d623726f83947a2c13" }
+bevy_ecs = { version = "0.18.0", default-features = false, features = ["std"] }
+bevy_app = { version = "0.18.0", default-features = false, features = ["std"] }
 glam = "0.30.10"
 linkme = "0.3.35"
-bevy_app = "0.18.0"
-bevy_ecs = "0.18.0"
 devu_macro = { path = "./devu_macro" }
 num-traits = "0.2.19"
 hashbrown = "0.16.1"
