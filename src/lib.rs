@@ -1,12 +1,15 @@
+pub use miniquad::conf;
+use miniquad::EventHandler;
 use bevy_app::prelude::*;
 
 
+pub mod prelude;
 pub mod ecs;
 
 
 pub fn run(title: &str) {
     let conf = conf::Conf {
-        title: title.to_string(),
+        window_title: title.to_string(),
         ..Default::default()
     };
     run_ex(conf);
@@ -23,19 +26,23 @@ pub fn run_ex(conf: conf::Conf) {
 }
 
 
-fn runner(mut app: App, conf: conf::Conf) -> AppExit {
-    let (raly, thread) = conf.build();
-    app.insert_resource(rl::Rl(raly));
-    app.insert_non_send_resource(rl::Thread(thread));
-
-
-    while !app.world().resource::<rl::Rl>().window_should_close() {
-        app.update();
-        app.world_mut().run_schedule(draw::Draw);
-    }
-
+fn runner(app: App, conf: conf::Conf) -> AppExit {
+    miniquad::start(conf, || Box::new(Stage { app } ));
 
     AppExit::Success
 }
 
 
+pub struct Stage {
+    app: App
+}
+
+impl EventHandler for Stage {
+    fn update(&mut self) {
+        self.app.update();
+    }
+
+    fn draw(&mut self) {
+
+    }
+}
