@@ -1,18 +1,7 @@
 use bevy_app::prelude::*;
 
 
-mod rl;
-mod draw;
-
-pub mod prelude;
-pub mod conf;
 pub mod ecs;
-pub mod math;
-pub mod window;
-pub mod color;
-pub mod transform;
-pub mod camera;
-pub mod shapes;
 
 
 pub fn run(title: &str) {
@@ -28,9 +17,6 @@ pub fn run_ex(conf: conf::Conf) {
     let mut app = App::new();
     app.set_runner(|app| runner(app, conf));
 
-    draw::init_draw(&mut app);
-    window::init_window(&mut app);
-    shapes::init_shape(&mut app);
     ecs::set_functions(&mut app);
 
     app.run();
