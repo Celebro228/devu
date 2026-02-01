@@ -8,7 +8,9 @@ mod shader;
 
 pub mod prelude;
 pub mod ecs;
+pub mod math;
 pub mod color;
+pub mod transform;
 
 
 pub fn run(title: &str) {
@@ -40,7 +42,7 @@ fn runner(mut app: App, conf: conf::Conf) -> AppExit {
 }
 
 
-pub struct Stage {
+struct Stage {
     app: App
 }
 
