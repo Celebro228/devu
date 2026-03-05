@@ -3,6 +3,7 @@ pub use devu_macro::*;
 pub use linkme::distributed_slice;
 
 use bevy_app::prelude::*;
+pub use bevy_app::App;
 
 
 #[distributed_slice]
@@ -18,6 +19,9 @@ pub static PRE_UPDATE: [fn() -> Box<dyn System<In = (), Out = ()>>];
 pub static UPDATE: [fn() -> Box<dyn System<In = (), Out = ()>>];
 #[distributed_slice]
 pub static POST_UPDATE: [fn() -> Box<dyn System<In = (), Out = ()>>];
+
+#[distributed_slice]
+pub static EVENT: [fn(&mut App)];
 
 
 pub(crate) fn set_functions(app: &mut App) {
@@ -39,5 +43,9 @@ pub(crate) fn set_functions(app: &mut App) {
     }
     for post_system_update in POST_UPDATE {
         app.add_systems(PostUpdate, post_system_update());
+    }
+    
+    for event_systems in EVENT {
+        event_systems(app);
     }
 }

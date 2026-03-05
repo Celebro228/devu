@@ -101,3 +101,20 @@ pub fn post_update(_: TokenStream, item: TokenStream) -> TokenStream {
         }
     }.into()
 }
+
+
+#[proc_macro_attribute]
+pub fn event(_: TokenStream, item: TokenStream) -> TokenStream {
+    let func = parse_macro_input!(item as ItemFn);
+    let name = &func.sig.ident;
+    let wrapper = format_ident!("__event_{}", name);
+
+    quote! {
+        #func
+
+        #[distributed_slice(::devu::ecs::EVENT)]
+        fn #wrapper(app: &mut ::devu::ecs::App) {
+            app.add_observer(#name);
+        }
+    }.into()
+}

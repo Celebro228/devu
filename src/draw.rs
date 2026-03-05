@@ -59,7 +59,7 @@ fn draw(
     mut ctx: NonSendMut<Ctx>,
     pipeline: Res<Pipe>,
 ) {
-    ctx.0.begin_default_pass(PassAction::clear_color(5., 0., 0., 1.));
+    ctx.0.begin_default_pass(PassAction::clear_color(1., 0., 0., 1.));
     ctx.0.apply_pipeline(&pipeline.0);
 
     ctx.0.end_render_pass();
