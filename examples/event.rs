@@ -6,18 +6,19 @@ fn main() {
 }
 
 
+#[derive(Event)]
+struct GameStarted;
+
 #[startup]
 fn start(
     mut commands: Commands,
 ) {
-    commands.spawn(RED);
+    commands.trigger(GameStarted);
 }
-
 
 #[event]
 fn hello_color(
-    event: On<Add, Color>,
-    colors: Query<&Color>,
+    _event: On<GameStarted>,
 ) {
-    println!("Hello {:?}!", colors.get(event.entity).unwrap());
+    println!("Game is Start");
 }
