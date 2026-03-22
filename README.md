@@ -1,1 +1,1 @@
-DeVu - easy and fast 3d miniquad-based game engine.
+DeVu - easy and fast ecs libary

@@ -11,15 +11,17 @@ categories = ["game-development", "graphics", "rendering"]
 authors = ["Celebro228"]
 
 
+[features]
+multi_threaded = ["bevy_ecs/multi_threaded"]
+
+
 [dependencies]
-miniquad = "0.4.8"
-bevy_ecs = { version = "0.18.0", default-features = false, features = ["std"] }
-bevy_app = { version = "0.18.0", default-features = false, features = ["std"] }
+bevy_ecs = { version = "0.18.1", default-features = false, features = ["std"] }
+bevy_app = { version = "0.18.1", default-features = false, features = ["std"] }
 glam = "0.30.10"
 linkme = "0.3.35"
 devu_macro = { path = "./devu_macro" }
 num-traits = "0.2.19"
-hashbrown = "0.16.1"
 
 
 # Release mod

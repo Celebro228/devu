@@ -2,7 +2,8 @@ use devu::prelude::*;
 
 
 fn main() {
-    devu::run("Event");
+    let mut app = devu::init();
+    app.update();
 }
 
 
