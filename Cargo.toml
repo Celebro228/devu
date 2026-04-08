@@ -8,7 +8,7 @@ repository = "https://github.com/Celebro228/devu"
 documentation = "https://docs.rs/devu"
 keywords = ["gamedev", "webassembly", "3d", "graphics"]
 categories = ["game-development", "graphics", "rendering"]
-authors = ["Celebro228"]
+authors = ["Celebro"]
 
 
 [features]
