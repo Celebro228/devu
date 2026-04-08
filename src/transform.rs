@@ -24,6 +24,25 @@ impl DerefMut for Position {
 }
 
 #[derive(Component, Clone, Copy, Debug, Default)]
+pub struct Size(pub Vec3);
+impl Size {
+    pub fn new(x: f32, y: f32, z: f32) -> Self {
+        Self(vec3(x, y, z))
+    }
+}
+impl Deref for Size {
+    type Target = Vec3;
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+impl DerefMut for Size {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.0
+    }
+}
+
+#[derive(Component, Clone, Copy, Debug, Default)]
 pub struct Rotation2D(pub f32);
 impl Rotation2D {
     pub fn new(r: f32) -> Self {
@@ -73,6 +92,17 @@ where
 {
     Position(vec3(x.as_(), y.as_(), z.as_()))
 }
+
+#[inline(always)]
+pub fn size<X, Y, Z>(x: X, y: Y, z: Z) -> Size
+where
+    X: AsPrimitive<f32>,
+    Y: AsPrimitive<f32>,
+    Z: AsPrimitive<f32>,
+{
+    Size(vec3(x.as_(), y.as_(), z.as_()))
+}
+
 
 #[inline(always)]
 pub fn rotation2d<R: AsPrimitive<f32>>(r: R) -> Rotation2D {
