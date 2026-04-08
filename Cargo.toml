@@ -2,13 +2,12 @@
 name = "devu"
 version = "0.2.0"
 edition = "2024"
-license = "MIT OR Apache-2.0"
-description = "Simple raylib-based game engine for Rust"
-repository = "https://github.com/Celebro228/devu"
-documentation = "https://docs.rs/devu"
-keywords = ["gamedev", "webassembly", "3d", "graphics"]
-categories = ["game-development", "graphics", "rendering"]
+description = "A fast, minimal, and ergonomic entity-component-system library"
 authors = ["Celebro"]
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/Celebro228/devu"
+keywords = ["ecs", "entity"]
+categories = ["data-structures", "game-engines"]
 
 
 [features]
